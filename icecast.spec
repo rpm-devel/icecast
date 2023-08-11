@@ -56,6 +56,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/share/icecast/*
 
 %changelog
-* Fri May 31 2019 CasjaysDev <rpm-admin@rpm-devel.casjaysdev.com> - 2.1.0
+* Fri May 31 2019 CasjaysDev <rpm-admin@rpm-devel.casjaysdev.pro> - 2.1.0
 - Initial Build for fedora
 
