@@ -1,16 +1,17 @@
 
 Name:		icecast
-Version:	2.1.0
-Release:	%dist
+Version:	2.5.0
+Release:	1%{?dist}
 Summary:	Xiph Streaming media server that supports multiple audio formats.
 
-Group:		Applications/Multimedia
 License:	GPL
 URL:		http://www.icecast.org/
 Vendor:		Xiph.org Foundation <team@icecast.org>
-Source:     http://www.icecast.org/files/%{name}-%{version}.tar.gz
+Source0:	https://downloads.xiph.org/releases/icecast/%{name}-%{version}.tar.gz
 
 #BuildArch:      %BuildArch
+BuildRequires:	gcc
+BuildRequires:	make
 Requires:       libvorbis >= 1.0
 BuildRequires:	libvorbis-devel >= 1.0
 Requires:       libogg >= 1.0
@@ -42,11 +43,7 @@ make
 make DESTDIR=$RPM_BUILD_ROOT install
 rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/%{name}
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %files
-%defattr(-,root,root)
 %doc README AUTHORS COPYING NEWS TODO
 %doc doc/*.html
 %doc doc/*.jpg
@@ -56,6 +53,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/share/icecast/*
 
 %changelog
+* Fri Apr 24 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 2.5.0-1
+- Update to 2.5.0
+- Modernize spec for EL10
+
 * Fri May 31 2019 CasjaysDev <rpm-admin@rpm-devel.casjaysdev.pro> - 2.1.0
 - Initial Build for fedora
-
