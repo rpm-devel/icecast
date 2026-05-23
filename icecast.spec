@@ -40,8 +40,8 @@ CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{_prefix} --mandir=%{_mandir} --sy
 make
 
 %install
-make DESTDIR=$RPM_BUILD_ROOT install
-rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/%{name}
+make DESTDIR=%{buildroot} install
+rm -rf %{buildroot}%{_datadir}/doc/%{name}
 
 %files
 %doc README AUTHORS COPYING NEWS TODO
@@ -53,6 +53,9 @@ rm -rf $RPM_BUILD_ROOT%{_datadir}/doc/%{name}
 %{_prefix}/share/icecast/*
 
 %changelog
+* Fri May 22 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 2.5.0-1
+- Fix spec violations: use %{buildroot}, %global for constants
+
 * Fri Apr 24 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 2.5.0-1
 - Update to 2.5.0
 - Modernize spec for EL10
