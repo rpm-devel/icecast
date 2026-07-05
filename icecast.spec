@@ -4,8 +4,9 @@ Version:	2.5.0
 Release:	1%{?dist}
 Summary:	Xiph Streaming media server that supports multiple audio formats.
 
-License:	GPL
-URL:		http://www.icecast.org/
+License:	GPL-2.0-or-later
+URL:		https://www.icecast.org/
+ExclusiveArch:	x86_64 aarch64
 Vendor:		Xiph.org Foundation <team@icecast.org>
 Source0:	https://downloads.xiph.org/releases/icecast/%{name}-%{version}.tar.gz
 
@@ -31,20 +32,19 @@ It is very versatile in that new formats can be added relatively
 easily and supports open standards for commuincation and interaction.
 
 %prep
-rm -rf %_builddir/%{name}-%{version}
-git clone -q https://github.com/karlheyes/icecast-kh.git %_builddir/%{name}-%{version}
-cd %_builddir && tar cfz $HOME/rpmbuild/%{name}/%{name}-%{version}.tar.gz %{name}-%{version}
+%autosetup -p1
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{_prefix} --mandir=%{_mandir} --sysconfdir=/etc
-make
+%configure --sysconfdir=/etc
+%make_build
 
 %install
-make DESTDIR=%{buildroot} install
+%make_install
 rm -rf %{buildroot}%{_datadir}/doc/%{name}
 
 %files
-%doc README AUTHORS COPYING NEWS TODO
+%license COPYING
+%doc README AUTHORS NEWS TODO
 %doc doc/*.html
 %doc doc/*.jpg
 %doc doc/*.css
@@ -53,6 +53,14 @@ rm -rf %{buildroot}%{_datadir}/doc/%{name}
 %{_prefix}/share/icecast/*
 
 %changelog
+* Sat Jul 04 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 2.5.0-1
+- Source0: xiph.org URL verified (2.5.0 is current, 302→200)
+- URL: http→https
+- Fix %%prep: replace git clone with %%autosetup -p1 using Source0 tarball
+- Fix %%build: use %%configure macro
+- SPDX: GPL → GPL-2.0-or-later; add ExclusiveArch: x86_64 aarch64
+- %%make_build, %%make_install, %%license COPYING
+
 * Fri May 22 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 2.5.0-1
 - Fix spec violations: use %{buildroot}, %global for constants
 
