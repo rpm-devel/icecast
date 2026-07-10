@@ -10,7 +10,12 @@ ExclusiveArch:	x86_64 aarch64
 Vendor:		Xiph.org Foundation <team@icecast.org>
 Source0:	https://downloads.xiph.org/releases/icecast/%{name}-%{version}.tar.gz
 
-#BuildArch:      %BuildArch
+%if 0%{?suse_version}
+%global curl_devel_pkg libcurl-devel
+%else
+%global curl_devel_pkg curl-devel
+%endif
+
 BuildRequires:	gcc
 BuildRequires:	make
 Requires:       libvorbis >= 1.0
@@ -18,7 +23,7 @@ BuildRequires:	libvorbis-devel >= 1.0
 Requires:       libogg >= 1.0
 BuildRequires:	libogg-devel >= 1.0
 Requires:       curl >= 7.10.0
-BuildRequires:	curl-devel >= 7.10.0
+BuildRequires:	%{curl_devel_pkg} >= 7.10.0
 Requires:       libxml2
 BuildRequires:	libxml2-devel
 Requires:       libxslt
@@ -53,6 +58,12 @@ rm -rf %{buildroot}%{_datadir}/doc/%{name}
 %{_prefix}/share/icecast/*
 
 %changelog
+* Sat Jul 05 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 2.5.0-1
+- Remove stray commented #BuildArch line (ExclusiveArch already set)
+- Guard curl-devel/libcurl-devel BuildRequires for openSUSE/SLES via
+  %if 0%%{?suse_version}; other deps (libvorbis-devel, libogg-devel,
+  libxml2-devel, libxslt-devel) verified identical across RHEL/Fedora/SUSE
+
 * Sat Jul 04 2026 CasjaysDev <rpm-devel@casjaysdev.pro> - 2.5.0-1
 - Source0: xiph.org URL verified (2.5.0 is current, 302→200)
 - URL: http→https
